@@ -1,0 +1,3 @@
+transport_connect_tls:freerdp_set_last_error_ex ERRCONNECT_TLS_CONNECT_FAILED [0x00020008]
+Solution: add /tls-seclevel:0 /timeout:80000 
+eg: xfreerdp /u:user /p:password /v:192.168.0.2:3389 /tls-seclevel:0 /timeout:80000
