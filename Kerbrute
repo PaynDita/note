@@ -1,0 +1,1 @@
+#./kerbrute userenum -d domainname --dc ipaddress user.txt
