@@ -3,3 +3,5 @@ Note: Password required
 smbclient //10.10.106.230/backup -U svc-admin  (to access the folder)
 dir 
 get backup_credentials.txt 
+TO DECODE
+base64 -d backup_credentials.txt 
