@@ -1,1 +1,2 @@
 smbclient -L //10.10.106.230 -U svc-admin
+Note: Password required
