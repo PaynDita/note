@@ -1,2 +1,3 @@
 john hash.txt --wordlist=pass.txt
 hashcat -m 18200 hash.txt pass.txt 
+Type/Mode of hashcat?   hashcat hash.txt |grep Kerberos
