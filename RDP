@@ -1,0 +1,3 @@
+xfreerdp /u:user /p:password /v:ip_address:port
+
+rdesktop -u user ipaddress
