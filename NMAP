@@ -3,6 +3,14 @@ https://nmap.org/book/nse-usage.html
 -sC or --script
 --script-trace and --script-updatedb, are generally only used for script debugging and development. Script scanning is also included as part of the -A (aggressive scan) option.
 
+/usr/share/nmap/scripts
+
+root:/usr/share/nmap/scripts$ file scripts.db
+root:/usr/share/nmap/scripts$ head scripts.db
+root:/usr/share/nmap/scripts$ grep "ftp" /usr/share/nmap/scripts/scripts.db
+root:/usr/share/nmap/scripts$ ls -l /usr/share/nmap/scripts/*ftp*
+
+
 To run a script scan with neither a host discovery nor a port scan, use the -Pn -sn options together with -sC or --script. Every host will be assumed up and still only host scripts will be run.
 This technique is useful for scripts like whois-ip that only use the remote system's address and don't require it to be up.
 
