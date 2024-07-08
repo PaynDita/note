@@ -1,3 +1,28 @@
+https://nmap.org/book/nse-usage.html
+
+-sC or --script
+--script-trace and --script-updatedb, are generally only used for script debugging and development. Script scanning is also included as part of the -A (aggressive scan) option.
+safe:- Won't affect the target
+intrusive:- Not safe: likely to affect the target
+vuln:- Scan for vulnerabilities
+exploit:- Attempt to exploit a vulnerability
+auth:- Attempt to bypass authentication for running services (e.g. Log into an FTP server anonymously)
+brute:- Attempt to bruteforce credentials for running services
+discovery:- Attempt to query running services for further information about the network (e.g. query an SNMP server).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 nmap -sS (only work with Sudo and in sudo by default nmap run syn scan while TCP connect scan run by default if its normal mode)
 syn - half_scan or stealth | TCP connect - full scan
 send rst after getting ACK | send ack after getting ack
