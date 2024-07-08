@@ -2,6 +2,28 @@ https://nmap.org/book/nse-usage.html
 
 -sC or --script
 --script-trace and --script-updatedb, are generally only used for script debugging and development. Script scanning is also included as part of the -A (aggressive scan) option.
+
+To run a script scan with neither a host discovery nor a port scan, use the -Pn -sn options together with -sC or --script. Every host will be assumed up and still only host scripts will be run.
+This technique is useful for scripts like whois-ip that only use the remote system's address and don't require it to be up.
+
+nmap -sC example.com
+A simple script scan using the default set of scripts.
+
+nmap -sn -sC example.com
+A script scan without a port scan; only host scripts are eligible to run.
+
+nmap -Pn -sn -sC example.com
+A script scan without host discovery or a port scan. All hosts are assumed up and only host scripts are eligible to run.
+
+nmap --script smb-os-discovery --script-trace example.com
+Execute a specific script with script tracing.
+
+nmap --script snmp-sysdescr --script-args creds.snmp=admin example.com
+Run an individual script that takes a script argument.
+
+nmap --script mycustomscripts,safe example.com
+Execute all scripts in the mycustomscripts directory as well as all scripts in the safe category.
+
 safe:- Won't affect the target
 intrusive:- Not safe: likely to affect the target
 vuln:- Scan for vulnerabilities
