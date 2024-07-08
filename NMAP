@@ -1,0 +1,3 @@
+nmap -sS (only work with Sudo and in sudo by default nmap run syn scan while TCP connect scan run by default if its normal mode)
+syn - half_scan or stealth | TCP connect - full scan
+send rst after getting ACK | send ack after getting ack
