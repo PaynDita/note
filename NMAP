@@ -10,6 +10,9 @@ root:/usr/share/nmap/scripts$ head scripts.db
 root:/usr/share/nmap/scripts$ grep "ftp" /usr/share/nmap/scripts/scripts.db
 root:/usr/share/nmap/scripts$ ls -l /usr/share/nmap/scripts/*ftp*
 
+same for catagory:
+root:/usr/share/nmap/scripts$ grep "safe" /usr/share/nmap/scripts/script.db
+
 
 To run a script scan with neither a host discovery nor a port scan, use the -Pn -sn options together with -sC or --script. Every host will be assumed up and still only host scripts will be run.
 This technique is useful for scripts like whois-ip that only use the remote system's address and don't require it to be up.
