@@ -1,0 +1,1 @@
+/Desktop>powershell -c "$cred = Import-Clixml -Path cred.xml; $cred.GetNetworkCredential() | Format-List *"   (where cred.xml is the file and the path is desktop)
