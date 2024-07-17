@@ -1,0 +1,3 @@
+ pycurl error:
+apt --purge remove python3-pycurl && apt install libcurl4-openssl-dev libssl-dev
+-----------------------------------------------------------------------------------------------
