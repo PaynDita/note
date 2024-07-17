@@ -1,0 +1,3 @@
+Wfuzz is a python coded application to fuzz web applications with a plethora of options. It offers various filters that allow one to replace a simple web request with a required word by replacing it with the variable “FUZZ.”
+
+pip3 install wfuzz
