@@ -1,0 +1,22 @@
+ basic commands by using “help”
+msf > help
+--------------------------------------
+ “show payloads”. It lists all the available payloads in alphabetic order.
+msf > show payloads
+--------------------------------------------------------------------------
+“show exploits”. It lists all the available payloads in alphabetic order and
+it also shows the date it was disclosed and the rank of the exploit ranging from “Excellent-average”.
+msf > show exploits
+------------------------------------------------------------------------------------------------------
+“show auxiliary”. As mentioned earlier, auxiliary modules include scanners, denial of service modules, fuzzers, and more.
+msf > show auxiliary
+---------------------------------------------------------------------------------------------------------------------------
+“show post”. Post modules are used for post exploitation that is used on a compromised target machine to gather evidence or pivot deep within the network.
+msf > show post
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+“show encoder”. These are used to obfuscate modules to avoid detection by a protection mechanism such as an antivirus or a firewall.
+msf > show encoders
+----------------------------------------------------------------------------------------------------------------------------
+“show nops”. They are used to keep the size of payload consistent across exploit attempts.
+msf > show nops
+-----------------------------------------------------------------------------------------
