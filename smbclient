@@ -1,4 +1,4 @@
-smbclient -L //10.10.106.230 -U svc-admin
+smbclient -L //10.10.106.230 -U svc-admin  (to sed the folder directory)
 Note: Password required
 smbclient //10.10.106.230/backup -U svc-admin  (to access the folder)
 dir 
