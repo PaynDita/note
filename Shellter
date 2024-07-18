@@ -1,20 +1,23 @@
 https://www.hackingarticles.in/shellter-a-shellcode-injecting-tool/
 
 Shellter is an active shellcode insertion tool. It effectively re-encodes payloads (here shellcode) to bypass anti-virus (AV) software.
+To use Shellter, you can either create your own shellcode or create one from a framework such as Metasploit. 
+Shellter embeds a 32-bit Windows application and the shellcode in such a way that it goes undetected by the AV software.
 
 apt-get install shellter
 apt-get install wine32
 ---------------------------------------------------------------------------------------
+Open Shellter
 When you open Shellter in Kali in wine mode, it prompts you to choose operation mode.
 Select the mode as ‘a’. It stands for auto. 
-Now, you need to choose an executable file and copy it to the Shellter folder. This is required to be done to bind Shellter with a .exe file. In our case, we have copied the putty.exe file to the Shellter folder
-and bound it with the shellter.exe file.
+Now, you need to choose an executable file and copy it to the Shellter folder. This is required to be done to bind Shellter with a .exe file. 
+In our case, we have copied the putty.exe file as example to the Shellter folder and bound it with the shellter.exe file.
 When asked for PE Target, type the following command:
 
 /root/Downloads/putty.exe
 Press the Enter key to continue. You may see DisASM.dll file gets successfully created. Enable Stealth Mode. Then, you are prompted to enable stealth mode.
 Type ‘y’ for yes.
-----------------------------------------------------------------------------------
+
 Type ‘L’ to use from the listed payload.
 ou can select payload of your choice. In our case, we have selected 1 for Meterpreter_Reverse_TCP
  set LHOST and LPORT
