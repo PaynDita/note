@@ -1,1 +1,9 @@
 https://www.hackingarticles.in/magic-unicorn-powershell-downgrade-attack-and-exploitation-tool/
+-------------------------------------------------------------------------------------------------------------------
+Magic Unicorn is a simple tool for using a PowerShell downgrade attack that injects shellcode straight into memory.
+Powershell Attack Instruction
+HTA Attack Instruction
+Macro Attack Instruction
+-------------------------------------------------------------------------------------------------------------------
+git clone https://github.com/trustedsec/unicorn.git
+./unicorn.py
