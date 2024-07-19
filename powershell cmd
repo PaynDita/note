@@ -1,2 +1,6 @@
 to change password:
 c:\users\user1 > net user user2 Passw0rld
+..................................................................................................
+
+Command to check who all users are associated with administrator
+net localgroup administrators
