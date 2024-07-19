@@ -5,13 +5,13 @@ This can be used to confuse the target with a huge number of folders as well as 
 After creating the batch file, we are going to send the file to the victim via a meterpreter session and upload command and then execute the batch file from the shell which was obtained from the meterpreter shell.
 
 Creation of Batch file
-
 You can open any text editor on our Kali Linux to make a batch file like Vim, Leafpad etc. We are going to use Leafpad. We opened the Leafpad and typed the following loop code.
 
 @echo off
 :loop
 md %random%
 goto loop
+
 Now we got to save this file as a batch file. The format of the batch file is “.bat”. We can name the file whatever we want until we write .bat at the end of that file name at the time of saving the file.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
