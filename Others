@@ -1,18 +1,5 @@
 create Unlimited Folders on a Remote System.
 
-Table of Content:
-Working Principle
-Creation of Batch file
-Getting Meterpreter session
-Upload and run the Batch file
-Requirements
-
-Attacker: Kali Linux
-
-Targets: Windows
-
-Working Principle
-
 Creating unlimited folders is a fun attack that could be executed on a remote system. In this attack, we are using a loop which will run up to a random value to create folders.
 This can be used to confuse the target with a huge number of folders as well as it can be used to mess with the target. 
 After creating the batch file, we are going to send the file to the victim via a meterpreter session and upload command and then execute the batch file from the shell which was obtained from the meterpreter shell.
