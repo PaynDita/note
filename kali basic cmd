@@ -1,2 +1,2 @@
 unzip tar file 
-gzip -d file.tar.gz
+tar xvzf file.tar.gz
