@@ -1,0 +1,2 @@
+unzip tar file 
+gzip -d file.tar.gz
