@@ -1,5 +1,26 @@
 https://www.hackingarticles.in/hack-windows-password-in-clear-text-using-mimikatz-and-windows-credentials-editor/
 
+Noto: Its a window too!!!
+
 mimikatz is a tool to check Windows security. It’s now well known to extract plaintexts passwords, hash, PIN code and kerberos tickets from memory.
 mimikatz can also perform pass-the-hash, pass-the-ticket or build Golden tickets.
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+Download the mimikatz and run as administrator - that open the mimikatz window
+
+Type the following command to check  privilege
+privilege::debug
+
+Now type the following command to get users passwords in text mode.
+sekurlsa::logonPasswords
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Windows Credentials Editor
+Windows Credentials Editor (WCE) is a security tool that allows to list Windows logon sessions and add, change, list and delete associated credentials (e.g.: LM/NT hashes, Kerberos tickets and clear text passwords).
+
+First Download WCE from here.
+https://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip
+
+Go to WCE directory & execute the following command as Administrator. And run the following command
+
+ wce.exe -w It will show the password in plaintext.
