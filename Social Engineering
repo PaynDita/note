@@ -1,0 +1,26 @@
+SET Toolkit
+https://www.hackingarticles.in/hack-remote-pc-using-hta-attack-in-set-toolkit/
+Hack Remote PC using HTA Attack in SET Toolkit
+
+The HTA Attack method will allow you to clone a site and perform PowerShell injection through HTA files which can be used for Windows-based PowerShell exploitation through the browser.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Our method for HTA attack is through setoolkit. For this, open setoolkit in your Kali. 
+
+And from the menu given choose the first option by typing 1 to access social engineering tools.
+
+From the next given menu, choose the second option by typing 2 to go into website attack vendors.
+
+From the further given menu choose option 8 to select the HTA attack method.
+
+Once you have selected the option 8 for HTA attack, next you need to select option 2 which will allow you to clone a site. Once selected the option 2, it will ask the URL of the site you want to clone.
+Provide the desired URL as here we have given ‘www.ignitetechnologies.in’.
+
+After giving the URL it will ask you to select the type of meterpreter you want. Select the third one by typing 3 meterpreter Reverse TCP
+
+Once you hit enter after typing 3, the process will start and you will have the handler (multi/handler)
+
+Now convert your malicious IP into the bit.ly link which will appear more genuine to victims when you will share this link with them.
+
+When the victim will browse above malicious link, the file will be saved and automatically executed in the victim’s PC after being saved 
+
+you will get the Meterpreter session.
