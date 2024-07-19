@@ -28,3 +28,12 @@ goto loop
 Now we got to save this file as a batch file. The format of the batch file is “.bat”. We can name the file whatever we want until we write .bat at the end of that file name at the time of saving the file.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Privilege escalation is the act of exploiting a bug, design flaw or configuration oversight in an operating system or software application to gain elevated access to resources that are normally protected froman application 
+or user.The result is that an application with more privileges than intended by the application developer or system administrator can perform unauthorized actions.
+
+Download https://github.com/hfiref0x/CVE-2015-1701/archive/master.zip
+run Taihou64.exe, it will open a command prompt with admin priveleges. Now you can change the password using net user command. Example is given below:
+Syntax:
+
+net user (username) passw0rld 
