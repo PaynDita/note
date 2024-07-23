@@ -23,4 +23,4 @@ https://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip
 
 Go to WCE directory & execute the following command as Administrator. And run the following command
 
- wce.exe -w It will show the password in plaintext.
+ wce.exe -w (-w is used to dump all the passwords in clear text)
