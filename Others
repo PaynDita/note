@@ -24,3 +24,9 @@ run Taihou64.exe, it will open a command prompt with admin priveleges. Now you c
 Syntax:
 
 net user (username) passw0rld 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Setup VyOS (Virtual Router Pentest Lab)
+https://www.hackingarticles.in/setup-vyos-virtual-router-pentest-lab/
+---------------------------------------------------------------------------
