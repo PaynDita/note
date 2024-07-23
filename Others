@@ -1,3 +1,17 @@
+Wifi Penetration Testing using Gerix Wifi Cracker
+https://www.hackingarticles.in/wifi-penetration-testing-using-gerix-wifi-cracker/
+First of all clone the github repo with command:
+
+git clone https://github.com/J4r3tt/gerix-wifi-cracker-2.git
+
+Now inside the installed directory give the gerix.py file permission to execute with command:
+
+chmod +x gerix.py
+
+and then start the gerix wifi cracker with command:
+
+python gerix.py
+--------------------------------------------------------------------------------------------------------
 
 create Unlimited Folders on a Remote System.
 
