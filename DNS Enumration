@@ -1,0 +1,21 @@
+4 Ways to DNS Enumeration
+https://www.hackingarticles.in/4-ways-dns-enumeration/
+
+nmap --script=broadcast-dns-service-discovery www.testdomain.com
+
+nmap -T4 -p 53 --script dns-brute www.testdomain.com
+
+nmap -Pn -sU -p 53 --script=dns-recursion 192.168.1.150
+
+nmap --script dns-srv-enum --script-args "dns-srv-enum.domain='google.com'"
+
+dnsenum --noreverse -o mydomain.xml www.testdomain.com
+
+The following command will enumerate DNS record of targeted website
+dnsrecon -d www.testdomain.com
+
+Fierce
+Fierce is a reconnaissance tool. Fierce is a PERL script that quickly scans domains (usually in just a few minutes, assuming no network lag) using several tactics.
+command for DNS enumeration on the targeted website
+
+fierce -dns www.testdomain.com
