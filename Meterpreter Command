@@ -1,0 +1,29 @@
+Once the meterpreter is generated we can have full access to the target machine. Meterpreter includes more than 300 commands which can help us in exploiting the target machine:
+
+https://www.hackingarticles.in/beginner-guide-meterpreter-part-1/
+
+Sysinfo | Getuid | Getprivs | Pwd | Screenshot | upload | Download | ipconfig | Reboot | Webcam_snap | localtime | checksum
+PS |command here stands for the process. It will show all the running processes in the remote PC.
+Keylogger
+Keylogger includes 3 basic functions:
+
+keyscan_start | keyscan_stop
+This command will start scanning the keyboard activity of the remote PC and stop.
+keyscan_dump
+This command will dump the keyboard activity of the remote PC i.e, it will capture the input and display on our screen.
+
+Show_mount
+This command will show all the drives present in the remote PC
+
+Shell | Shell command will provide us the access of the command prompt of the remote PC. After having access to the command prompt we can use any cmd command to exploit victim’s PC.
+
+Getsid | In this command, sid stands for security identifier. This command will provide the server sid.
+
+Background
+This command will send the current active meterpreter session to the background. If you want to go back to the previous session just write sessions and then we will be able to see the active session in our PC. 
+If there is more than one session then we only have to write sessions followed by the session id. 
+
+Migrate | This command helps in transferring the current going process from one port to another port.
+
+Getpid | This command will provide us with the process id of the currently running process
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
