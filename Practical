@@ -1,0 +1,9 @@
+rpcclient -U "" 10.0.2.9 
+
+rpcclinet$>querydominfo
+
+rpcclinet$>enumdomusers
+
+rpcclinet$>querydominfo
+
+rpcclinet$>queryuser msfadmin
