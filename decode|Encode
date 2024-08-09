@@ -2,4 +2,4 @@ For decode:
 echo "hash value=" | base64 -d
 
 for encode:
-echo "hash value=" | base64
+echo -ne"hash value=" | base64 -d
