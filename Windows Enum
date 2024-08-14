@@ -15,10 +15,9 @@ sudo ./wes.py sysinfo
 
 ----------------------------------------------------------------------------------------------------------------------------
 **Now continuing from the same above, we will find the specific string like username or password from any folder | for that fisrt we create one file(eg. confident.txt)***
-c:\users\user\Download> New-Item confident.txt
-c:\users\user\Download> Set-Content confident.txt "for my memory username=anonymous password=veryVERYtough"
+c:\users\user\Download> echo "username is user123 an the password is test123pas" > confident.txt
 ** now we will try to find it out with its string eg. pass**
-c:\users\user\Download>findstr /si pass
+c:\users\user\Download>findstr /si pass *.txt
 ** it will search quite quick in specific folder but if you want to find in whole computer it will take time as it go through all the folders**
 c:\> findstr /si pass
 
