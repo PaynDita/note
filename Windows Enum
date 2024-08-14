@@ -13,4 +13,13 @@ c:\users\user\Download>. ./PowerUp.ps1   ***Note:PS C:\> powershell -ep bypass a
 sudo ./wes.py sysinfo
 **** It will list all the vulnaberities that specific computer has based on the system inforemation that we generate******
 
+----------------------------------------------------------------------------------------------------------------------------
+**Now continuing from the same above, we will find the specific string like username or password from any folder | for that fisrt we create one file(eg. confident.txt)***
+c:\users\user\Download> New-Item confident.txt
+c:\users\user\Download> Set-Content confident.txt "for my memory username=anonymous password=veryVERYtough"
+** now we will try to find it out with its string eg. pass**
+c:\users\user\Download>findstr /si pass
+** it will search quite quick in specific folder but if you want to find in whole computer it will take time as it go through all the folders**
+c:\> findstr /si pass
+
 
