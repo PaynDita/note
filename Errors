@@ -6,3 +6,11 @@ eg: xfreerdp /u:user /p:password /v:192.168.0.2:3389 /tls-seclevel:0 /timeout:80
 pycurl error:
 apt --purge remove python3-pycurl && apt install libcurl4-openssl-dev libssl-dev
 -----------------------------------------------------------------------------------------------
+ssh
+
+ssh -i id_rsa root@10.10.195.242
+
+Unable to negotiate with 10.10.195.242 port 22: no matching host key type found. Their offer: ssh-rsa,ssh-dss
+fix: -oHostKeyAlgorithms=+ssh-dss 
+
+ssh -oHostKeyAlgorithms=+ssh-dss -i id_rsa root@10.10.195.242
