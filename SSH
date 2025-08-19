@@ -1,7 +1,20 @@
 ssh user@ip_address
 
+ssh	Connect securely to a remote machine (terminal/command execution)
+scp	Copy files securely between machines
+sftp	Secure FTP-like file transfer
+sshd	The SSH server daemon (runs on the host being accessed)
+ssh-keygen	Generate SSH key pairs (authentication keys)
+ssh-agent / ssh-add	Manage and use keys securely in memory
+ssh-keyscan	Collect public keys from remote hosts
+ssh-keygen -p	Change passphrase of a private key
 https://www.lifeandcanvas.com/ssh-request-guide/
 -------------------------------------------------------------
+hydra -L users.txt -P pass.txt 192.168.31.205 ssh
+
+hydra -L users.txt -P pass.txt 192.168.31.205 ssh -s 2222
+
+-------------------------------------------------------------------------
 
 https://www.hackingarticles.in/ssh-penetration-testing-port-22/
 
