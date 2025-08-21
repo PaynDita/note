@@ -1,3 +1,8 @@
 https://github.com/ropnop/kerbrute/releases/tag/v1.0.3
 
 #./kerbrute userenum -d domainname --dc ipaddress user.txt
+
+Alternatively:
+
+nmap -p88 --script=krb5-enum-users --script-args="krb5-enum-users.realm='SPOOKYSEC.LOCAL',userdb=userlist" 10.201.22.141
+
